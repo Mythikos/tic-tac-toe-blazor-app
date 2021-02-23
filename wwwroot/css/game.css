@@ -1,0 +1,56 @@
+﻿.ttt-player-info-container {
+
+}
+
+.ttt-chat-log-container {
+    max-height: 750px;
+    min-height: 750px;
+}
+
+.ttt-gameboard-container {
+
+}
+
+    .ttt-gameboard-container .ttt-gameboard-row {
+        margin: 0px;
+    }
+
+        .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell {
+            border: solid black 1px;
+            text-align: center;
+            padding: 0px !important;
+            border: 0px !important;
+            line-height: 150px;
+        }
+
+            .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell button:hover {
+                background: #20948B;
+            }
+
+            .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell button {
+                background: #6AB187;
+                color: #E6E6FA;
+            }
+
+            .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell .top-left {
+                border-radius: 5px 0px 0px 0px;
+            }
+
+            .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell .top-right {
+                border-radius: 0px 5px 0px 0px;
+            }
+
+            .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell .bottom-left {
+                border-radius: 0px 0px 0px 5px;
+            }
+
+            .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell .bottom-right {
+                border-radius: 0px 0px 5px 0px;
+            }
+
+            .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell img {
+                width: 80px;
+                height: 80px;
+                margin: auto;
+                border: none;
+            }

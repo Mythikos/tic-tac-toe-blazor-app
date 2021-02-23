@@ -1,0 +1,92 @@
+﻿@page "/game/setup"
+@inject Blazored.LocalStorage.ILocalStorageService _localStorage
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _jsRuntime
+@using TicTacToe.Library.Models;
+
+<h3>Player Setup</h3>
+<link rel="stylesheet" href="/css/setup.css" />
+
+@code {
+    private PlayerData _playerData;
+    private EditContext _editContext;
+    private List<string> _characters;
+
+    protected override void OnInitialized()
+    {
+        _playerData = new PlayerData();
+        _editContext = new EditContext(_playerData);
+        _characters = new List<string>()
+        {
+            "gerst",
+            "pag",
+            "seth",
+            "stlur",
+            "titspri"
+        };
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var hasPlayerName = await _localStorage.ContainKeyAsync("game.player.name");
+            if (hasPlayerName)
+            {
+                _playerData.PlayerName = await _localStorage.GetItemAsStringAsync("game.player.name");
+            }
+
+            var hasCharacterId = await _localStorage.ContainKeyAsync("game.player.characterid");
+            if (hasCharacterId)
+            {
+                _playerData.CharacterId = await _localStorage.GetItemAsStringAsync("game.player.characterid");
+                await _jsRuntime.InvokeVoidAsync("window.setup.highlightCharacter", this._playerData.CharacterId);
+            }
+
+            this.StateHasChanged();
+        }
+    }
+
+    private async Task Validate()
+    {
+        var isValid = _editContext.Validate();
+        if (isValid)
+        {
+            await _localStorage.SetItemAsync("game.player.name", _playerData.PlayerName);
+            await _localStorage.SetItemAsync("game.player.characterid", _playerData.CharacterId);
+            _navigationManager.NavigateTo("/game");
+        }
+    }
+}
+
+<div class="container-fluid">
+    <EditForm Model="@_playerData" OnValidSubmit="@Validate">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="row">
+            <p>Name:</p>
+            <InputText id="name" @bind-Value="_playerData.PlayerName" class="w-100" />
+        </div>
+        <br />
+
+        <div class="row">
+            <p>Characters:</p>
+        </div>
+        @for (int row = 0; row < (int)Math.Ceiling(_characters.Count / 3m); row++)
+        {
+            <div class="row">
+                @foreach (string character in _characters.Skip(row * 3).Take(3))
+                {
+                    <div class="col-4 p-0">
+                        <button id="character-@(character)" class="btn rounded border border-dark w-100 h-100" @onclick="@(async () => { _playerData.CharacterId = character; await _jsRuntime.InvokeVoidAsync("window.setup.highlightCharacter", character); })" @onclick:preventDefault="true"><img src="/images/characters/@(character).png" height="150" width="150"><br />@(character.ToUpper())</button>
+                    </div>
+                }
+            </div>
+        }
+        <br />
+        <div class="row">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </EditForm>
+</div>
