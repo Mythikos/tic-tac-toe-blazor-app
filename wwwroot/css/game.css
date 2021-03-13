@@ -1,5 +1,4 @@
 ﻿.ttt-player-info-container {
-
 }
 
 .ttt-chat-log-container {
@@ -8,7 +7,6 @@
 }
 
 .ttt-gameboard-container {
-
 }
 
     .ttt-gameboard-container .ttt-gameboard-row {
@@ -28,25 +26,67 @@
             }
 
             .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell button {
-                background: #6AB187;
-                color: #E6E6FA;
+                margin: 0px;
+                padding: 0px;
+                border: 0px;
+                border-style: solid;
+                border-color: black;
+                outline: none;
             }
 
-            .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell .top-left {
-                border-radius: 5px 0px 0px 0px;
-            }
+                .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell button.top-left {
+                    border-style: solid;
+                    border-width: 0px 1px 1px 0px;
+                    border-radius: 5px 0px 0px 0px;
+                }
 
-            .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell .top-right {
-                border-radius: 0px 5px 0px 0px;
-            }
+                .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell button.top-middle {
+                    border-style: solid;
+                    border-width: 0px 1px 1px 1px;
+                    border-radius: 0px;
+                }
 
-            .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell .bottom-left {
-                border-radius: 0px 0px 0px 5px;
-            }
+                .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell button.top-right {
+                    border-style: solid;
+                    border-width: 0px 0px 1px 1px;
+                    border-radius: 0px 5px 0px 0px;
+                }
 
-            .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell .bottom-right {
-                border-radius: 0px 0px 5px 0px;
-            }
+                .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell button.middle-left {
+                    border-style: solid;
+                    border-width: 1px 1px 1px 0px;
+                    border-radius: 0px;
+                }
+
+                .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell button.middle-center {
+                    border-style: solid;
+                    border-width: 1px;
+                    border-radius: 0px;
+                }
+
+                .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell button.middle-right {
+                    border-style: solid;
+                    border-width: 1px 0px 1px 1px;
+                    border-radius: 0px;
+                }
+
+                .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell button.bottom-left {
+                    border-style: solid;
+                    border-width: 1px 1px 0px 0px;
+                    border-radius: 0px 0px 0px 5px;
+                }
+
+                .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell button.bottom-middle {
+                    border-style: solid;
+                    border-width: 1px 1px 0px 1px;
+                    border-radius: 0px;
+                }
+
+                .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell button.bottom-right {
+                    border-style: solid;
+                    border-width: 1px 0px 0px 1px;
+                    border-radius: 0px 0px 5px 0px;
+                }
 
             .ttt-gameboard-container .ttt-gameboard-row .ttt-gameboard-cell img {
                 width: 80px;

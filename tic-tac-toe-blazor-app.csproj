@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>TicTacToe</RootNamespace>
     <AssemblyName>TicTacToe</AssemblyName>
+    <UserSecretsId>55e0e4a3-ff87-44b3-b57a-3757a7bab7a4</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿@page "/game"
+﻿@page "/"
 @inject Blazored.LocalStorage.ILocalStorageService _localStorage
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _jsRuntime
@@ -19,26 +19,31 @@
             GameBoard = new TicTacToe.Board(),
             GamesPlayed = 0,
             GameState = GameData.GameStates.None,
-            AISmackTalkPhrases = new List<string>()
-{
+            AISmackTalkPhrases = new List<string>() // https://getemoji.com/
+            {
+                "You're garbage 😂😂😂",
                 "You really think that's gonna work, {playeronename}?",
                 "You suck, {playeronename}.",
-                "Pff, {playeronename}, I've seen better moves from my grandmother."
+                "Pff, {playeronename}, I've seen better moves from my grandmother.",
+                "Imagine being this bad at Tic Tac Toe 😂",
+                "I've played against people with no brain that are smarter than you.",
             },
-            AIWonPhrases = new List<string>()
-{
+            AIWonPhrases = new List<string>() // https://getemoji.com/
+            {
                 "Lol... you thought you could beat me.",
                 "Get on my level, {playeronename}.",
-                "You're literally dog water."
+                "You're literally dog water.",
+                "I'd say GG, but there was nothing G about the G.",
+                "Zzzzz 😴😴"
             },
-            AILostPhrases = new List<string>()
-{
+            AILostPhrases = new List<string>() // https://getemoji.com/
+            {
                 "Whatever, you probably cheated.",
                 "This is dumb.",
                 "Who the hell made this crap to begin with."
             },
-            AIDrawPhrases = new List<string>()
-{
+            AIDrawPhrases = new List<string>() // https://getemoji.com/
+            {
                 "Nonsense.",
                 "Must of been a fluke."
             }
@@ -62,17 +67,19 @@
 
                 if (string.IsNullOrWhiteSpace(playerName) || string.IsNullOrWhiteSpace(characterId))
                 {
-                    _navigationManager.NavigateTo("/game/setup");
+                    _navigationManager.NavigateTo("setup");
                 }
                 else
                 {
                     await SetupPlayersAsync(); // Just to show something on screen
+                    //for (int i = 0; i < 50; i++)
+                    //    _chatLog.Add(Tuple.Create(DateTime.Now, _gameData.PlayerTwoName, _gameData.AISmackTalkPhrases.Random()));
                     this.StateHasChanged();
                 }
             }
             else
             {
-                _navigationManager.NavigateTo("/game/setup");
+                _navigationManager.NavigateTo("setup");
             }
         }
     }
@@ -185,7 +192,7 @@
         if (_gameData.GameState == GameData.GameStates.None)
             return;
 
-        await Task.Delay(2000); // Small delay for AI
+        await Task.Delay(1000); // Small delay for AI
         ownCharacterId = _gameData.GameState == GameData.GameStates.PlayerOneMove ? _gameData.PlayerOneCharacterId : _gameData.GameState == GameData.GameStates.PlayerTwoMove ? _gameData.PlayerTwoCharacterId : string.Empty;
         opponentCharacterId = _gameData.GameState == GameData.GameStates.PlayerOneMove ? _gameData.PlayerTwoCharacterId : _gameData.GameState == GameData.GameStates.PlayerTwoMove ? _gameData.PlayerOneCharacterId : string.Empty;
 
@@ -204,11 +211,15 @@
     {
         var random = new Random(Guid.NewGuid().GetHashCode());
         if (random.Next(1, 100) < chance)
+        {
             _chatLog.Add(Tuple.Create(DateTime.Now, _gameData.PlayerTwoName, phrases.Random()));
+            if (_chatLog.Count > 50)
+                _chatLog.RemoveAt(_chatLog.Count - 1);
+        }
     }
 }
 
-<link rel="stylesheet" href="/css/game.css" />
+<link rel="stylesheet" href="css/game.css" />
 
 <div class="container">
     <h3>Round @(_gameData.GamesPlayed + 1)</h3>
@@ -218,7 +229,7 @@
                 <div class="row mb-2">
                     <div class="col-4 text-center">
                         <div class="card">
-                            <img class="card-img-top" width="100" src="/images/characters/@(_gameData.PlayerOneCharacterId).png">
+                            <img class="card-img-top" width="100" src="images/characters/@(_gameData.PlayerOneCharacterId).png">
                             <div class="card-body">
                                 <h5 class="card-title">@_gameData.PlayerOneName</h5>
                             </div>
@@ -241,7 +252,7 @@
                     </div>
                     <div class="col-4 text-center">
                         <div class="card">
-                            <img class="card-img-top" width="100" src="/images/characters/@(_gameData.PlayerTwoCharacterId).png">
+                            <img class="card-img-top" width="100" src="images/characters/@(_gameData.PlayerTwoCharacterId).png">
                             <div class="card-body">
                                 <h5 class="card-title">@_gameData.PlayerTwoName</h5>
                             </div>
@@ -259,13 +270,18 @@
                                 <td class="p-0 ttt-gameboard-cell">
                                     @{
                                         var isTopLeft = row == 0 && column == 0;
+                                        var isTopMiddle = row == 0 && column > 0 && column < _gameData.GameBoard.ColumnCount - 1;
                                         var isTopRight = row == 0 && column == _gameData.GameBoard.ColumnCount - 1;
+                                        var isMiddleLeft = row > 0 && row < _gameData.GameBoard.RowCount - 1 && column == 0;
+                                        var isMiddleRight = row > 0 && row < _gameData.GameBoard.RowCount - 1 && column == _gameData.GameBoard.ColumnCount - 1;
                                         var isBottomLeft = row == _gameData.GameBoard.RowCount - 1 && column == 0;
+                                        var isBottomMiddle = row == _gameData.GameBoard.RowCount - 1 && column > 0 && column < _gameData.GameBoard.ColumnCount - 1;
                                         var isBottomRight = row == _gameData.GameBoard.RowCount - 1 && column == _gameData.GameBoard.ColumnCount - 1;
+                                        var isCenter = row > 0 && row < _gameData.GameBoard.RowCount - 1 && column > 0 && column < _gameData.GameBoard.ColumnCount - 1;// (_gameData.GameBoard.RowCount - 1) / 2 && column == (_gameData.GameBoard.ColumnCount - 1) / 2;
 
                                         var rowIndex = row;
                                         var columnIndex = column;
-                                        <button id="ttt-gameboard-cell-@(rowIndex)-@(columnIndex)" class="@(isTopLeft ? "top-left" : isTopRight ? "top-right" : isBottomLeft ? "bottom-left" : isBottomRight ? "bottom-right" : string.Empty) w-100 h-100 p-0" @onclick="@(async () => await PlayerHandleMoveAsync(rowIndex, columnIndex))" @onclick:preventDefault="true">
+                                        <button id="ttt-gameboard-cell-@(rowIndex)-@(columnIndex)" class="@(isTopLeft ? "top-left" : isTopMiddle ? "top-middle" : isTopRight ? "top-right" : isBottomLeft ? "bottom-left" : isBottomMiddle ? "bottom-middle" : isBottomRight ? "bottom-right" : isMiddleLeft ? "middle-left" : isCenter ? "middle-center" : isMiddleRight ? "middle-right" : string.Empty) w-100 h-100 p-0" @onclick="@(async () => await PlayerHandleMoveAsync(rowIndex, columnIndex))" @onclick:preventDefault="true">
                                             <img id="ttt-gameboard-cell-@(rowIndex)-@(columnIndex)-character-avatar" />
                                         </button>
                                     }
@@ -278,7 +294,7 @@
         </div>
         <div class="col-4">
             <div class="w-100 p-2 border border-dark rounded overflow-auto ttt-chat-log-container">
-                @foreach (Tuple<DateTime, string, string> log in _chatLog)
+                @foreach (Tuple<DateTime, string, string> log in _chatLog.OrderByDescending(x => x.Item1))
                 {
                     if (log.Item2 == "System")
                     {
@@ -286,7 +302,7 @@
                     }
                     else
                     {
-                        <p class="m-0">[@(log.Item1.ToString("HH:mm:ss"))] @(log.Item2): @(log.Item3.Replace("{playeronename}", _gameData.PlayerOneName).Replace("playertwoname", _gameData.PlayerTwoName))</p>
+                        <p class="m-0">[@(log.Item1.ToString("HH:mm:ss"))] @(log.Item2): @((MarkupString)log.Item3.Replace("{playeronename}", _gameData.PlayerOneName).Replace("playertwoname", _gameData.PlayerTwoName))</p>
                     }
                 }
             </div>

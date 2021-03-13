@@ -1,11 +1,11 @@
-﻿@page "/game/setup"
+﻿@page "/setup"
 @inject Blazored.LocalStorage.ILocalStorageService _localStorage
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _jsRuntime
 @using TicTacToe.Library.Models;
 
 <h3>Player Setup</h3>
-<link rel="stylesheet" href="/css/setup.css" />
+<link rel="stylesheet" href="css/setup.css" />
 
 @code {
     private PlayerData _playerData;
@@ -54,7 +54,7 @@
         {
             await _localStorage.SetItemAsync("game.player.name", _playerData.PlayerName);
             await _localStorage.SetItemAsync("game.player.characterid", _playerData.CharacterId);
-            _navigationManager.NavigateTo("/game");
+            _navigationManager.NavigateTo("");
         }
     }
 }
@@ -79,7 +79,7 @@
                 @foreach (string character in _characters.Skip(row * 3).Take(3))
                 {
                     <div class="col-4 p-0">
-                        <button id="character-@(character)" class="btn rounded border border-dark w-100 h-100" @onclick="@(async () => { _playerData.CharacterId = character; await _jsRuntime.InvokeVoidAsync("window.setup.highlightCharacter", character); })" @onclick:preventDefault="true"><img src="/images/characters/@(character).png" height="150" width="150"><br />@(character.ToUpper())</button>
+                        <button id="character-@(character)" class="btn rounded border border-dark w-100 h-100" @onclick="@(async () => { _playerData.CharacterId = character; await _jsRuntime.InvokeVoidAsync("window.setup.highlightCharacter", character); })" @onclick:preventDefault="true"><img src="images/characters/@(character).png" height="150" width="150"><br />@(character.ToUpper())</button>
                     </div>
                 }
             </div>
