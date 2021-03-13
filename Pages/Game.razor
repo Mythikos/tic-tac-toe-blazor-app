@@ -21,20 +21,24 @@
             GameState = GameData.GameStates.None,
             AISmackTalkPhrases = new List<string>() // https://getemoji.com/
             {
-                "You're garbage 😂😂😂",
+                "You're garbage 😂😂😂.",
                 "You really think that's gonna work, {playeronename}?",
                 "You suck, {playeronename}.",
+                "👌",
                 "Pff, {playeronename}, I've seen better moves from my grandmother.",
-                "Imagine being this bad at Tic Tac Toe 😂",
+                "Imagine being this bad at Tic Tac Toe 😂.",
                 "I've played against people with no brain that are smarter than you.",
+                "It's like I'm playing against a baby 🙄."
             },
             AIWonPhrases = new List<string>() // https://getemoji.com/
             {
                 "Lol... you thought you could beat me.",
+                "Zzzzz 😴😴.",
                 "Get on my level, {playeronename}.",
+                "I'd say GG, but there was nothing G about that G 😒.", 
                 "You're literally dog water.",
-                "I'd say GG, but there was nothing G about the G.",
-                "Zzzzz 😴😴"
+                "You -> 🥴.",
+                "😎"
             },
             AILostPhrases = new List<string>() // https://getemoji.com/
             {
@@ -45,7 +49,8 @@
             AIDrawPhrases = new List<string>() // https://getemoji.com/
             {
                 "Nonsense.",
-                "Must of been a fluke."
+                "Must of been a fluke.",
+                "😑"
             }
         };
         _chatLog = new List<Tuple<DateTime, string, string>>();
